@@ -1,6 +1,11 @@
-#ignorar estos documentos resultantes del build. No se deben subir al repo.
+# Archivos de simulación
+*.vcd
+*.vvp
+*.o
+
+# Archivos de síntesis
 *.json
 *.fs
+
+# Logs
 *.log
-*.o
-*.history
