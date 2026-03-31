@@ -2,7 +2,7 @@
 module corrector_error (
     input [6:0] rx,          // datos recibidos
     input [2:0] error_pos,   // posición del error detectado
-    output reg [6:0] corrected // datos corregidos
+    output reg [3:0] corrected // datos corregidos
 );
 
     always @(*) begin
