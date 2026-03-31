@@ -6,27 +6,27 @@ FAMILY = GW1N-9C
 DEVICE = GW1NR-LV9QN88PC6/I5
 
 #Nombre del proyecto... Acá ponen el nombre que deseen.
-PROYECT = blinky_led
+PROYECT = receptor
 
 #Fuentes de diseno
-SOURCES := $(wildcard ../design/*.v ../design/*.sv) #Todas las fuentes .v o .sv que estan en design
+SOURCES := $(wildcard ../design/receptor/*.v ../design/receptor/*.sv) #Todas las fuentes .v o .sv que estan en design
 #Si quieren indicarlas una a una, pueden hacerlo como en este ejemplo:
 #SOURCES = ../design/module_top_deco_gray.v ../design/module_input_deco_gray.v 
 
 #Fuente de simulacion
 #aca va el testbench que quieran simular
-TESTBENCH = ../sim/blinky_led_tb.sv
+TESTBENCH = ../sim/receptor_top_tb.sv
 
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
-CONSTRAINTS = ../constr/blinky.cst
+CONSTRAINTS = ../constr/receptor.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
-TOP_DESIGN = blinky_led   
-TOP_TB = blinky_led_tb
+TOP_DESIGN = receptor_top
+TOP_TB = receptor_top_tb
 
 #nombre del vcd que va a generar el tb
-VCD_FILE = blinky_led_tb.vcd
+VCD_FILE = receptor_top_tb.vcd
 
 
 all: synth pnr bitstream load
