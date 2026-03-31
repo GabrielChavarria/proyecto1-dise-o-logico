@@ -3,7 +3,7 @@ module receptor_top (
 
     input  [6:0] rx,        // datos recibidos
     output [2:0] error_pos, // posición del error detectado
-    output [6:0] corrected  // datos corregidos
+    output [3:0] corrected  // datos corregidos
 
 );
 
