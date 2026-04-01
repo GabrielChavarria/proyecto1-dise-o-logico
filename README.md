@@ -192,7 +192,7 @@ De esta forma, el detector no solo verifica si la palabra está correcta, sino q
 
 ---
 
-## 6.4 Trabajo pendiente para etapas futuras
+## 6.5 Trabajo pendiente para etapas futuras
 
 Como parte de las siguientes etapas del proyecto, se incluirán además:
 
@@ -201,6 +201,7 @@ la lógica de salida para LEDs,
 y la lógica de visualización en 7 segmentos.
 
 Estas secciones serán incorporadas una vez se complete la implementación de dichos subsistemas, de manera que el informe final cubra todos los requerimientos establecidos en la guía del proyecto.
+
 ---
 # 7. Simulación funcional del receptor
 
