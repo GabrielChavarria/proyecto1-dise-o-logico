@@ -1,0 +1,11 @@
+# Archivos de simulación
+*.vcd
+*.vvp
+*.o
+
+# Archivos de síntesis
+*.json
+*.fs
+
+# Logs
+*.log
