@@ -85,9 +85,9 @@ Esta organización permite mantener un flujo de trabajo más ordenado, facilita 
 - [Módulo 7.1.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.1.-M%C3%B3dulo-decodificador-de-paridad-sobre-la-palabra-recibida) -Decodificador de paridad sobre la palabra recibida
 - [Módulo 7.2.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.2.-M%C3%B3dulo-de-correcci%C3%B3n-de-error-sobre-la-palabra-recibida) - Corrección de error sobre la palabra recibida
  - Corrección de error sobre la palabra recibida
-- [Módulo 7.3.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.3.-M%C3%B3dulo-de-despliegue-de-palabra-corregida-en-formato-binario-en-luces-LED) - Despliegue de palabra corregida en formato binario en luces LED - Despliegue de palabra corregida en formato binario en luces LED - Despliegue de palabra corregida en formato binario en luces LED
-- [Módulo 7.4.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.4.-M%C3%B3dulo-de-despliegue-de-palabra-corregida-en-display-de-7-segmentos) - Despliegue de palabra corregida en display de 7 segmentos- Despliegue de palabra corregida en display de 7 segmentos - Despliegue de palabra corregida en display de 7SEG
-- [Módulo 7.5.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.5.-Selector) - Selector 
+- [Módulo 7.3.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.3-M%C3%B3dulo-de-despliegue-de-palabra-corregida-en-formato-binario-en-luces-LED) - Despliegue de palabra corregida en formato binario en luces LED - Despliegue de palabra corregida en formato binario en luces LED - Despliegue de palabra corregida en formato binario en luces LED
+- [Módulo 7.4.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.4-M%C3%B3dulo-de-despliegue-de-palabra-corregida-en-display-de-7-segmentos) - Despliegue de palabra corregida en display de 7 segmentos- Despliegue de palabra corregida en display de 7 segmentos - Despliegue de palabra corregida en display de 7SEG
+- [Módulo 7.5.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.5-Selector) - Selector 
 ---
 # 4. Descripción del subsistema receptor
 
