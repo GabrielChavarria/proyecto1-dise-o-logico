@@ -40,7 +40,7 @@ Hasta esta etapa del desarrollo, se ha trabajado principalmente en el **subsiste
 
 El trabajo realizado hasta el momento constituye una base importante para continuar con las siguientes etapas del proyecto, como la visualización en LEDs, el despliegue en 7 segmentos, la integración con el transmisor y la implementación final sobre hardware.
 
-**[Receptor con algoritmo Hamming](https://github.com/KeeperMitch/proyecto1-dise-o-logico/wiki)**
+**[Receptor con algoritmo Hamming](https://github.com/GabrielChararria/proyecto1-dise-o-logico/wiki)**
 
 ---
 ## Estructura actual del proyecto
