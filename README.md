@@ -2,17 +2,37 @@
 
 ## Escuela de Ingeniería Electrónica
 **Curso:** EL-3307 Diseño Lógico  
+
 **Semestre:** I Semestre 2026  
-**Profesor:** Oscar Caravaca\
-**Fecha:** Marzo 2026
+
+**Profesor:** Oscar Caravaca
 
 --- 
 ## Integrantes
 - Gabriel Alonso Chavarría Rodriguez
 - Mariana Guerrero Morales
 ---
+## Abreviaturas y definiciones
+- **FPGA**: Field Programmable Gate Arrays
+- **HDL**: Hardware Description Language
+- **SCR**: Silicon Controlled Rectifier
+- **EDA**: Electronic Design Automation
+- **GPIO**: General Purpose Input/Output
+---
+## Herramientas Utilizadas
+- **Descripción Hardawre**: SystemVerilog
+- **herramientas de simulación**:
+- **GTKwave**: Verificación gráfica de señales mediante simulación.
+---
+## Referencias
 
-# 1. Introducción
+
+---
+## Objetivo
+Implementar y validar un sistema receptor basado en el código Hamming (7,4) mediante lógica programable en una FPGA Tang Nano 9k, integrando módulos de detección y corrección de errores de un bit, con el fin de garantizar la integridad de la información recibida y su correcta visualización en interfaces físicas binarias y hexadecimales.
+
+---
+# Descripción General
 
 El presente proyecto tiene como objetivo el diseño e implementación de un sistema digital basado en el código Hamming (7,4), utilizando una FPGA como plataforma de desarrollo. El sistema completo se divide en dos grandes bloques: transmisor y receptor. El transmisor se encarga de tomar una palabra de 4 bits, codificarla en una palabra de 7 bits e introducir un error controlado si así se desea. El receptor, por su parte, recibe la palabra de 7 bits, detecta si existe error, determina la posición del bit erróneo y recupera la palabra original de 4 bits.
 
@@ -21,14 +41,7 @@ Hasta esta etapa del desarrollo, se ha trabajado principalmente en el **subsiste
 El trabajo realizado hasta el momento constituye una base importante para continuar con las siguientes etapas del proyecto, como la visualización en LEDs, el despliegue en 7 segmentos, la integración con el transmisor y la implementación final sobre hardware.
 
 ---
-
-# 2. Objetivo del avance actual
-
-El objetivo de esta etapa fue desarrollar y verificar funcionalmente el subsistema receptor del sistema Hamming (7,4), específicamente los módulos encargados de detectar errores y corregir la palabra recibida, así como organizar el flujo de trabajo del proyecto para facilitar su simulación y futura implementación física.
-
----
-
-# 3. Estructura actual del proyecto
+## Estructura actual del proyecto
 Se reorganizó la estructura del proyecto con el fin de separar adecuadamente la documentación, el diseño HDL, la simulación, los constraints y los archivos generados durante compilación.
 ```text
 Proyecto_1
@@ -66,7 +79,7 @@ La estructura actual del proyecto se compone de carpetas principales como:
 Esta organización permite mantener un flujo de trabajo más ordenado, facilita la localización de archivos y mejora la comprensión general del proyecto.
 
 ---
-
+## Jerarquía del Subsistema Receptor
 # 4. Descripción del subsistema receptor
 
 El receptor desarrollado está compuesto por tres módulos principales:
