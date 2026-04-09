@@ -82,6 +82,12 @@ Esta organización permite mantener un flujo de trabajo más ordenado, facilita 
 
 ---
 ## Jerarquía del Subsistema Receptor
+- [Módulo 7.1.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.1.-M%C3%B3dulo-decodificador-de-paridad-sobre-la-palabra-recibida) -Decodificador de paridad sobre la palabra recibida
+- [Módulo 7.2.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.1.-M%C3%B3dulo-correción-de-error-sobre-la-palabra-recibida) - Corrección de error sobre la palabra recibida
+- Módulo 7.3 - Despliegue de palabra corregida en formato binario en luces LED
+- Módulo 7.4 - Despliegue de palabra corregida en display de 7SEG
+- Módulo 7.5 - Selector
+---
 # 4. Descripción del subsistema receptor
 
 El receptor desarrollado está compuesto por tres módulos principales:
