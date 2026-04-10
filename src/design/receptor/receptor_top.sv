@@ -20,8 +20,7 @@ module receptor_top (
     // ------------------------------
     // Paridad global (SECDED)
     // ------------------------------
-    assign parity_global = rx[0] ^ rx[1] ^ rx[2] ^
-                           rx[3] ^ rx[4] ^ rx[5] ^ rx[6];
+    assign parity_global = 0;
 
     assign rx_ext = {parity_global, rx};
 
