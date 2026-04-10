@@ -71,7 +71,7 @@ Esta organización permite mantener un flujo de trabajo más ordenado, facilita 
 
 El receptor desarrollado está compuesto por tres módulos principales:
 
-- 'detector_error'S
+- `detector_error`
 - `corrector_error`
 - `receptor_top`
 
