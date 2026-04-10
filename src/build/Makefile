@@ -15,15 +15,14 @@ SOURCES := $(wildcard ../design/receptor/*.v ../design/receptor/*.sv) #Todas las
 
 #Fuente de simulacion
 #aca va el testbench que quieran simular
-TESTBENCH = ../sim/receptor_top_tb.sv
-
+TESTBENCH = ../sim/secded_tb.sv
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
 CONSTRAINTS = ../constr/receptor.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
 TOP_DESIGN = receptor_top
-TOP_TB = receptor_top_tb
+TOP_TB = secded_tb
 
 #nombre del vcd que va a generar el tb
 VCD_FILE = receptor_top_tb.vcd
