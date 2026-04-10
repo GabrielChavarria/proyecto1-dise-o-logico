@@ -45,7 +45,7 @@ module receptor_top (
     // ------------------------------
     // Módulo SECDED
     // ------------------------------
-    secded_checker secded (
+    secded_detector secded (
         .rx_ext(rx_ext),
         .syndrome(error_pos_wire,
         .error_type(error_type)
