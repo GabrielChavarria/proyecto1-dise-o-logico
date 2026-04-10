@@ -16,17 +16,17 @@ module secded_detector (
 
 always @(*) begin
 
-    if (syndrome == 3'b000 && parity_calc == 0)
+    if (parity_calc == 0 && syndrome == 0)
         error_type = 2'b00; // sin error
 
-    else if (syndrome == 3'b000 && parity_calc == 1)
-        error_type = 2'b11; // error en bit de paridad
-
-    else if (syndrome != 3'b000 && parity_calc == 1)
+    else if (parity_calc == 1 && syndrome != 0)
         error_type = 2'b01; // 1 error
 
+    else if (parity_calc == 0 && syndrome != 0)
+        error_type = 2'b10; // doble error
+
     else
-        error_type = 2'b10; // 2 errores
+        error_type = 2'b11; // error en bit de paridad
 
 end
 endmodule
