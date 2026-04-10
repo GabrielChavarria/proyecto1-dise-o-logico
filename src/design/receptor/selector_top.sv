@@ -33,7 +33,7 @@ module selector_top (
 
     //--- 3. Salidas hacia el selector externo ---
     case (switch_selector)
-    
+
 
         : 
         default: 
@@ -43,4 +43,8 @@ module selector_top (
 
     //--- 4. Mapeo para el display ---
     // Aquí se mapea el dato corregido a un formato que el display pueda mostrar
+    decodificador_7seg decodificador (
+        .bin_in(dato_corregido),
+        .seg_out(seg_out)
+    );
 
