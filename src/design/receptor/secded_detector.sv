@@ -14,20 +14,19 @@ module secded_detector (
                          rx_ext[3] ^ rx_ext[4] ^ rx_ext[5] ^
                          rx_ext[6] ^ rx_ext[7];
 
-    always @(*) begin
+always @(*) begin
 
-        if (syndrome == 3'b000 && parity_calc == 0)
-            error_type = 2'b00; // sin error
+    if (syndrome == 3'b000 && parity_calc == 0)
+        error_type = 2'b00; // sin error
 
-        else if (syndrome != 3'b000 && parity_calc == 1)
-            error_type = 2'b01; // 1 error
+    else if (syndrome == 3'b000 && parity_calc == 1)
+        error_type = 2'b11; // error en bit de paridad
 
-        else if (syndrome != 3'b000 && parity_calc == 0)
-            error_type = 2'b10; // 2 errores
+    else if (syndrome != 3'b000 && parity_calc == 1)
+        error_type = 2'b01; // 1 error
 
-        else
-            error_type = 2'b11; // error en bit de paridad
+    else
+        error_type = 2'b10; // 2 errores
 
-    end
-
+end
 endmodule

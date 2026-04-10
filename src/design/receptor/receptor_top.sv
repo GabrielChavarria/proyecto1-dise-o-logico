@@ -47,7 +47,7 @@ module receptor_top (
     // ------------------------------
     secded_detector secded (
         .rx_ext(rx_ext),
-        .syndrome(error_pos_wire,
+        .syndrome(error_pos_wire),
         .error_type(error_type)
     );
 
