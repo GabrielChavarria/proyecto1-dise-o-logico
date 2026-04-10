@@ -1,5 +1,5 @@
 // Módulo SECDED: detecta doble error y clasifica
-module secded_checker (
+module secded_detector (
 
     input  [7:0] rx_ext,      // 7 bits Hamming + 1 bit de paridad
     input  [2:0] syndrome,    // del detector
