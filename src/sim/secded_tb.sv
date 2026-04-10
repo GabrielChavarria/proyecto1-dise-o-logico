@@ -1,42 +1,67 @@
+`timescale 1ns/1ps
+
 module secded_tb;
 
-    reg [7:0] rx_ext;
-    reg [2:0] syndrome;
-    wire [1:0] error_type;
+    // Entradas
+    reg [6:0] rx;
 
-    secded_checker uut (
-        .rx_ext(rx_ext),
-        .syndrome(syndrome),
-        .error_type(error_type)
+    // Salidas
+    wire [2:0] error_pos;
+    wire [3:0] corrected;
+
+    // Si agregaste SECDED
+    wire double_error;
+
+    // Instancia del TOP
+    receptor_top uut (
+        .rx(rx),
+        .error_pos(error_pos),
+        .corrected(corrected)
+        // agrega aquí double_error si lo conectaste en el top
     );
 
+    // Generar archivo VCD
+    initial begin
+        $dumpfile("receptor_top_tb.vcd");
+        $dumpvars(0, secded_tb);
+    end
+
+    // Pruebas
     initial begin
 
-        $display("rx_ext | syndrome | error_type");
-        $monitor("%b | %b | %b", rx_ext, syndrome, error_type);
+        $display("==============================================");
+        $display(" PRUEBA SECDED ");
+        $display("==============================================");
+        $display("Tiempo | rx       | error_pos | corrected");
+        $display("==============================================");
 
-        // Caso 1: sin error
-        rx_ext = 8'b10101010;
-        syndrome = 3'b000;
+        // CASO 1: SIN ERROR
+        rx = 7'b1010101;
         #10;
 
-        // Caso 2: 1 error
-        rx_ext = 8'b10101011;
-        syndrome = 3'b001;
+        // CASO 2: 1 ERROR
+        rx = 7'b1010100; // cambia 1 bit
         #10;
 
-        // Caso 3: 2 errores
-        rx_ext = 8'b10101111;
-        syndrome = 3'b010;
+        // CASO 3: OTRO ERROR
+        rx = 7'b1010001;
         #10;
 
-        // Caso 4: error en bit de paridad
-        rx_ext = 8'b10101011;
-        syndrome = 3'b000;
+        // 🚨 CASO 4: 2 ERRORES (SECDED)
+        rx = 7'b1000001; // cambia 2 bits
+        #10;
+
+        // EXTRA
+        rx = 7'b1111111;
         #10;
 
         $finish;
+    end
 
+    // Monitor en consola
+    initial begin
+        $monitor("%4t   | %b |   %b     |   %b",
+                 $time, rx, error_pos, corrected);
     end
 
 endmodule
