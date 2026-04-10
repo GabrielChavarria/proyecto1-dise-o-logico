@@ -2,17 +2,15 @@
 // Este módulo define los cables que van a la protoboard y regresan a la FPGA
 
 module selector_top (
-    input  logic [6:0] datos_con_error,   // Los 7 bits del DIP Switch
+    
+    //Entrada desde el transmisor - Cables que llegan a la FPGA
+    input  logic [6:0] datos_con_error,   // Bits de transferencia del Transmisor
+    input  logic  switch_selector, // Switch para seleccionar entre enviar el dato corregido o el síndrome al selector externo
     
     // Salidas hacia el chip -Cables que salen de la FPGA
-    output logic [3:0] hacia_selector_A,  // Palabra ya corregida
-    output logic [2:0] hacia_selector_B,  // Posición del error 
-    
-    // Entrada desde el chip - Lo que regresa a la FPGA
-    input  logic  switch_selector,
-    
-    // Salida final al display físico
-    output logic [6:0] seg_out
+    output logic [3:0] salida_selector,  // Palabra corregida o el síndrome, dependiendo del switch
+    output logic [6:0] seg_out,
+    output logic [3:0] led_out
 );
 
     logic [2:0] sindrome;
@@ -32,15 +30,19 @@ module selector_top (
     assign dato_corregido[3] = datos_con_error[3] ^ sindrome[2]; // D4
 
     //--- 3. Salidas hacia el selector externo ---
+    always @(*) begin
+
     case (switch_selector)
-    
 
-        : 
-        default: 
+        1'b0: salida_selector = dato_corregido; // Si el switch está en 0, enviamos el dato corregido
+        1'b1: salida_selector = sindrome; // Si el switch está en 1, enviamos el síndrome para que el selector sepa dónde está el error
+        default: salida_selector = 4'b0000; // En caso de que el switch tenga un valor no definido, enviamos el dato corregido
+        
     endcase
-    assign hacia_selector_A = dato_corregido; // Enviamos el dato corregido al selector
-    assign hacia_selector_B = sindrome; // Enviamos el síndrome para que el selector sepa dónde está el error
-
+    end
+    
     //--- 4. Mapeo para el display ---
     // Aquí se mapea el dato corregido a un formato que el display pueda mostrar
+
+    
 
