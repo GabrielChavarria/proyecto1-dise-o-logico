@@ -43,6 +43,14 @@ module selector_top (
     
     //--- 4. Mapeo para el display ---
     // Aquí se mapea el dato corregido a un formato que el display pueda mostrar
+    //--- 4. Mapeo para el display ---
+    decodificador_7seg U1 (
+        .dato(salida_selector), // Enviamos el dato seleccionado al decodificador
+        .seg(seg_out)
+    );
 
+    //--- 5. Mapeo para los LEDs ---
+    // Aquí se mapea el dato corregido a los LEDs para visualización
+    assign led_out = salida_selector; // Enviamos el dato seleccionado a los LEDs para visualización
     
 
