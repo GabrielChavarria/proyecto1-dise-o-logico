@@ -5,7 +5,6 @@ module interfaz_leds (
 );
 
 // Se asigna la entrada a la salida usando ecuaciones de identidad.
-// Usamos los nombres exactos que definimos arriba (data_in y leds_out).
 
 assign leds_out = data_in;
 
