@@ -25,7 +25,11 @@
 - **GTKwave**: Verificación gráfica de señales mediante simulación.
 ---
 ## Referencias
+[1] FZumb4do. open_source_fpga_environment
 
+[2] LUSHAYLABS. Tang Nano 9K: Getting Setup
+
+[3] Sipeed Wiki — Tang Nano 9K
 
 ---
 ## Objetivo
