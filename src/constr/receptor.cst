@@ -2,6 +2,7 @@
 
 // ========================================
 // ENTRADAS: palabra recibida rx[6:0]
+// Todos en banco IOB → LVCMOS33 (3.3V)
 // ========================================
 
 IO_LOC  "rx[0]" 25;
@@ -22,12 +23,13 @@ IO_PORT "rx[4]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 IO_LOC  "rx[5]" 30;
 IO_PORT "rx[5]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[6]" 79;
-IO_PORT "rx[6]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;
+IO_LOC  "rx[6]" 31;
+IO_PORT "rx[6]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;  // ← movido de pin 79 a pin 31
 
 
 // ========================================
 // SALIDAS: posición del error
+// Banco IOT → LVCMOS18 (1.8V)
 // ========================================
 
 IO_LOC  "error_pos[0]" 80;
@@ -42,6 +44,7 @@ IO_PORT "error_pos[2]" DRIVE=8 IO_TYPE=LVCMOS18;
 
 // ========================================
 // SALIDAS: datos corregidos de 4 bits
+// Banco IOT → LVCMOS18 (1.8V) — LEDs internos
 // ========================================
 
 IO_LOC  "data_out[0]" 10;

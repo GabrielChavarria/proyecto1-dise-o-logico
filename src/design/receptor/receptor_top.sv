@@ -1,9 +1,7 @@
 module receptor_top (
-
-    input  [6:0] rx,        // datos recibidos
-    output [2:0] error_pos, // posición del error detectado
-    output [3:0] corrected  // datos finales (controlados por SECDED)
-
+    input  [6:0] rx,        // palabra recibida del transmisor (7 bits)
+    output [2:0] error_pos, // posición del error (1-based, 0 = sin error)
+    output [3:0] data_out   // ← renombrado para coincidir con el .cst
 );
 
     // ------------------------------
@@ -11,18 +9,18 @@ module receptor_top (
     // ------------------------------
     wire [2:0] error_pos_wire;
     wire [3:0] corrected_wire;
-
-    // SECDED
     wire [1:0] error_type;
-    wire [7:0] rx_ext;
+
+    // ------------------------------
+    // Paridad global (Opción B)
+    // Se calcula localmente con los 7 bits recibidos
+    // ------------------------------
     wire parity_global;
+    assign parity_global = rx[0] ^ rx[1] ^ rx[2] ^ rx[3] ^
+                           rx[4] ^ rx[5] ^ rx[6];
 
-    // ------------------------------
-    // Paridad global (SECDED)
-    // ------------------------------
-    assign parity_global = 0;
-
-    assign rx_ext = {parity_global, rx};
+    wire [7:0] rx_ext;
+    assign rx_ext = {parity_global, rx};  // p0 calculado localmente
 
     // ------------------------------
     // Módulo 7.1: Detector
@@ -51,21 +49,24 @@ module receptor_top (
     );
 
     // ------------------------------
-    // Lógica final (CLAVE)
+    // Lógica final
     // ------------------------------
     reg [3:0] final_data;
 
     always @(*) begin
         case (error_type)
-            2'b00: final_data = rx[3:0];          // sin error
-            2'b01: final_data = corrected_wire;  // 1 error corregido
-            2'b10: final_data = 4'b1111;         // doble error (no confiable)
+            2'b00: final_data = corrected_wire; // sin error, datos limpios
+            2'b01: final_data = corrected_wire; // 1 error corregido
+            2'b10: final_data = 4'b1111;        // doble error, dato no confiable
+            2'b11: final_data = corrected_wire; // error solo en p0, datos ok
             default: final_data = 4'b1111;
         endcase
     end
 
-    // salida final
-    assign corrected = final_data;
+    // ------------------------------
+    // Salidas
+    // ------------------------------
+    assign data_out  = final_data;
     assign error_pos = error_pos_wire;
 
 endmodule
