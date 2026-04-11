@@ -25,12 +25,9 @@
 - **GTKwave**: Verificación gráfica de señales mediante simulación.
 ---
 ## Referencias
-[1] FZumb4do. open_source_fpga_environment
-
-[2] LUSHAYLABS. Tang Nano 9K: Getting Setup
-
-[3] Sipeed Wiki — Tang Nano 9K
-
+- [1] [Open Source FPGA Environment](https://github.com/FZumb4do/open_source_fpga_environment.git)
+- [2] [https://wiki.sipeed.com/hardware/en/tang/Tang-Nano-9K/Nano-9K.html)
+- 
 ---
 ## Objetivo
 Implementar y validar un sistema receptor basado en el código Hamming (7,4) mediante lógica programable en una FPGA Tang Nano 9k, integrando módulos de detección y corrección de errores de un bit, con el fin de garantizar la integridad de la información recibida y su correcta visualización en interfaces físicas binarias y hexadecimales.
