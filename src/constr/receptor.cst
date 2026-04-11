@@ -1,41 +1,49 @@
 //// FPGA: GW1NR-LV9QN88PC6/I5
 //// Receptor — Top unificado
 //// EL-3307 Diseño Lógico — I Semestre 2026
+////
+//// Conexión física con el transmisor:
+////   Transf[0] PIN71 → rx[0] PIN33  (d1)
+////   Transf[1] PIN72 → rx[1] PIN34  (d2)
+////   Transf[2] PIN73 → rx[2] PIN35  (d3)
+////   Transf[3] PIN74 → rx[3] PIN40  (p4)
+////   Transf[4] PIN75 → rx[4] PIN41  (d4)
+////   Transf[5] PIN76 → rx[5] PIN42  (p2)
+////   Transf[6] PIN77 → rx[6] PIN51  (p1)
+////   GND transmisor  → GND receptor (obligatorio)
 
 // ============================================================
 // ENTRADAS: palabra recibida rx[6:0]
-// Banco IOT → LVCMOS18 (1.8V)
-// Conectar directamente a salidas del transmisor (code_out)
-// Transmisor:  code_out[0]=PIN79 ... code_out[6]=PIN85
+// Banco IOB → LVCMOS33 (3.3V) — igual que el transmisor
 // ============================================================
 
-IO_LOC  "rx[0]" 86;
-IO_PORT "rx[0]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[0] transmisor PIN79
+IO_LOC  "rx[0]" 33;
+IO_PORT "rx[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // d1 ← Transf[0] PIN71
 
-IO_LOC  "rx[1]" 85;
-IO_PORT "rx[1]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[1] transmisor PIN80
+IO_LOC  "rx[1]" 34;
+IO_PORT "rx[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // d2 ← Transf[1] PIN72
 
-IO_LOC  "rx[2]" 84;
-IO_PORT "rx[2]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[2] transmisor PIN81
+IO_LOC  "rx[2]" 35;
+IO_PORT "rx[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // d3 ← Transf[2] PIN73
 
-IO_LOC  "rx[3]" 83;
-IO_PORT "rx[3]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[3] transmisor PIN82
+IO_LOC  "rx[3]" 40;
+IO_PORT "rx[3]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // p4 ← Transf[3] PIN74
 
-IO_LOC  "rx[4]" 82;
-IO_PORT "rx[4]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[4] transmisor PIN83
+IO_LOC  "rx[4]" 41;
+IO_PORT "rx[4]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // d4 ← Transf[4] PIN75
 
-IO_LOC  "rx[5]" 81;
-IO_PORT "rx[5]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[5] transmisor PIN84
+IO_LOC  "rx[5]" 42;
+IO_PORT "rx[5]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // p2 ← Transf[5] PIN76
 
-IO_LOC  "rx[6]" 80;
-IO_PORT "rx[6]" IO_TYPE=LVCMOS18 PULL_MODE=DOWN;   // ← code_out[6] transmisor PIN85
+IO_LOC  "rx[6]" 51;
+IO_PORT "rx[6]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;   // p1 ← Transf[6] PIN77
 
 
 // ============================================================
 // ENTRADA: switch selector (protoboard)
 // Banco IOB → LVCMOS33 (3.3V)
 // switch=0 → muestra dato corregido
-// switch=1 → muestra síndrome
+// switch=1 → muestra síndrome (posición del error)
 // ============================================================
 
 IO_LOC  "switch_selector" 25;
@@ -62,30 +70,30 @@ IO_PORT "salida_selector[3]" DRIVE=8 IO_TYPE=LVCMOS33;
 
 // ============================================================
 // SALIDAS: display 7 segmentos (protoboard)
-// seg_out[6:0] → Banco IOB → LVCMOS33 (3.3V)
-// Orden: [g f e d c b a]
+// seg_out[6:0] → Banco IOT → LVCMOS18 (1.8V)
+// Orden: seg_out = [g f e d c b a]
 // ============================================================
 
-IO_LOC  "seg_out[0]" 33;
-IO_PORT "seg_out[0]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento a
+IO_LOC  "seg_out[0]" 79;
+IO_PORT "seg_out[0]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento a
 
-IO_LOC  "seg_out[1]" 34;
-IO_PORT "seg_out[1]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento b
+IO_LOC  "seg_out[1]" 80;
+IO_PORT "seg_out[1]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento b
 
-IO_LOC  "seg_out[2]" 35;
-IO_PORT "seg_out[2]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento c
+IO_LOC  "seg_out[2]" 81;
+IO_PORT "seg_out[2]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento c
 
-IO_LOC  "seg_out[3]" 40;
-IO_PORT "seg_out[3]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento d
+IO_LOC  "seg_out[3]" 82;
+IO_PORT "seg_out[3]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento d
 
-IO_LOC  "seg_out[4]" 41;
-IO_PORT "seg_out[4]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento e
+IO_LOC  "seg_out[4]" 83;
+IO_PORT "seg_out[4]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento e
 
-IO_LOC  "seg_out[5]" 42;
-IO_PORT "seg_out[5]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento f
+IO_LOC  "seg_out[5]" 84;
+IO_PORT "seg_out[5]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento f
 
-IO_LOC  "seg_out[6]" 51;
-IO_PORT "seg_out[6]" DRIVE=8 IO_TYPE=LVCMOS33;   // segmento g
+IO_LOC  "seg_out[6]" 85;
+IO_PORT "seg_out[6]" DRIVE=8 IO_TYPE=LVCMOS18;   // segmento g
 
 
 // ============================================================
@@ -111,11 +119,11 @@ IO_PORT "led_out[3]" DRIVE=8 IO_TYPE=LVCMOS18;
 // error_pos[2:0] → Banco IOT → LVCMOS18 (1.8V)
 // ============================================================
 
-IO_LOC  "error_pos[0]" 79;
+IO_LOC  "error_pos[0]" 75;
 IO_PORT "error_pos[0]" DRIVE=8 IO_TYPE=LVCMOS18;
 
-IO_LOC  "error_pos[1]" 77;
+IO_LOC  "error_pos[1]" 76;
 IO_PORT "error_pos[1]" DRIVE=8 IO_TYPE=LVCMOS18;
 
-IO_LOC  "error_pos[2]" 76;
+IO_LOC  "error_pos[2]" 77;
 IO_PORT "error_pos[2]" DRIVE=8 IO_TYPE=LVCMOS18;
