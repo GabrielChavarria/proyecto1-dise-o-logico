@@ -10,7 +10,15 @@
 ////   Transf[4] PIN75 → rx[4] PIN41  (d4)
 ////   Transf[5] PIN76 → rx[5] PIN42  (p2)
 ////   Transf[6] PIN77 → rx[6] PIN51  (p1)
+////   parity_global PIN25(tx) → parity_global_in PIN30(rx)
 ////   GND transmisor  → GND receptor (obligatorio)
+
+// ============================================================
+// ENTRADA: bit de paridad global SECDED (del transmisor PIN25)
+// ============================================================
+
+IO_LOC  "parity_global_in" 30;
+IO_PORT "parity_global_in" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;  // ← Transmisor PIN25
 
 // ============================================================
 // ENTRADAS: palabra recibida rx[6:0]
