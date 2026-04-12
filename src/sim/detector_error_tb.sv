@@ -14,7 +14,7 @@
 
 `timescale 1ns/1ps
 
-module tb_detector_error;
+module detector_error_tb;
 
     // ----------------------------------------------------------
     // Señales del DUT
@@ -67,7 +67,7 @@ module tb_detector_error;
     initial begin
 
         $dumpfile("tb_detector_error.vcd");
-        $dumpvars(0, tb_detector_error);
+        $dumpvars(0, detector_error_tb);
 
         $display("============================================");
         $display("  TESTBENCH: detector_error");
@@ -81,23 +81,23 @@ module tb_detector_error;
         // CASO 2: error en rx[0]=d1 → síndrome = 111
         verificar(7'b0110010, 3'b111, 2);
 
-        // CASO 3: error en rx[1]=d2 → síndrome = 011
-        verificar(7'b0110001, 3'b011, 3);
+        // CASO 3: error en rx[1]=d2 → síndrome = 110
+        verificar(7'b0110001, 3'b110, 3);
 
         // CASO 4: error en rx[2]=d3 → síndrome = 101
         verificar(7'b0110111, 3'b101, 4);
 
-        // CASO 5: error en rx[3]=p4 → síndrome = 001
-        verificar(7'b0111011, 3'b001, 5);
+        // CASO 5: error en rx[3]=p4 → síndrome = 100
+        verificar(7'b0111011, 3'b100, 5);
 
-        // CASO 6: error en rx[4]=d4 → síndrome = 110
-        verificar(7'b0100011, 3'b110, 6);
+        // CASO 6: error en rx[4]=d4 → síndrome = 011
+        verificar(7'b0100011, 3'b011, 6);
 
         // CASO 7: error en rx[5]=p2 → síndrome = 010
         verificar(7'b0010011, 3'b010, 7);
 
-        // CASO 8: error en rx[6]=p1 → síndrome = 100
-        verificar(7'b1110011, 3'b100, 8);
+        // CASO 8: error en rx[6]=p1 → síndrome = 001
+        verificar(7'b1110011, 3'b001, 8);
 
         // ----------------------------------------------------------
         // Segunda palabra: datos = 4'b0000
@@ -109,12 +109,12 @@ module tb_detector_error;
 
         verificar(7'b0000000, 3'b000, 9);
         verificar(7'b0000001, 3'b111, 10); // rx[0]=d1
-        verificar(7'b0000010, 3'b011, 11); // rx[1]=d2
+        verificar(7'b0000010, 3'b110, 11); // rx[1]=d2
         verificar(7'b0000100, 3'b101, 12); // rx[2]=d3
-        verificar(7'b0001000, 3'b001, 13); // rx[3]=p4
-        verificar(7'b0010000, 3'b110, 14); // rx[4]=d4
+        verificar(7'b0001000, 3'b100, 13); // rx[3]=p4
+        verificar(7'b0010000, 3'b011, 14); // rx[4]=d4
         verificar(7'b0100000, 3'b010, 15); // rx[5]=p2
-        verificar(7'b1000000, 3'b100, 16); // rx[6]=p1
+        verificar(7'b1000000, 3'b001, 16); // rx[6]=p1
 
         // ----------------------------------------------------------
         // Tercera palabra: datos = 4'b1111
@@ -127,12 +127,12 @@ module tb_detector_error;
 
         verificar(7'b1111111, 3'b000, 17);
         verificar(7'b1111110, 3'b111, 18); // rx[0]=d1
-        verificar(7'b1111101, 3'b011, 19); // rx[1]=d2
+        verificar(7'b1111101, 3'b110, 19); // rx[1]=d2
         verificar(7'b1111011, 3'b101, 20); // rx[2]=d3
-        verificar(7'b1110111, 3'b001, 21); // rx[3]=p4
-        verificar(7'b1101111, 3'b110, 22); // rx[4]=d4
+        verificar(7'b1110111, 3'b100, 21); // rx[3]=p4
+        verificar(7'b1101111, 3'b011, 22); // rx[4]=d4
         verificar(7'b1011111, 3'b010, 23); // rx[5]=p2
-        verificar(7'b0111111, 3'b100, 24); // rx[6]=p1
+        verificar(7'b0111111, 3'b001, 24); // rx[6]=p1
 
         $display("============================================");
         $display("  SIMULACION COMPLETADA");
