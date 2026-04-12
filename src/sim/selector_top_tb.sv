@@ -1,54 +1,91 @@
+// Testbench: Sección 7.5 — Selector Top
+
+// CAMBIOS (reescritura completa):
+//   1. Puertos actualizados para coincidir con el módulos corregidos pos_error, dato_corregido, switch_selector, salida_selector, led_out
+//   2. Switch simulado correctamente como entrada de control del mux
+//   3. Se agrega monitoreo de led_out
+//   4. Casos de prueba cubren switch en OFF (dato corregido) y ON (síndrome)
+
 `timescale 1ns/1ps
 
 module selector_top_tb;
-    // Señales de estímulo
-    logic [3:0] dato_corregido;
-    logic [2:0] posicion_error;
-    logic [3:0] bin_desde_selector; // Esto simula el retorno de la proto
-    
-    // Señales de monitoreo
-    logic [3:0] hacia_selector_A;
-    logic [2:0] hacia_selector_B;
-    logic [6:0] seg_out;
 
-    // Instancia del módulo TOP
+    // Entradas
+    logic [3:0] dato_corregido;
+    logic [2:0] pos_error;
+    logic       switch_selector;
+
+    // Salidas
+    logic [3:0] salida_selector;
+    logic [6:0] seg_out;
+    logic [3:0] led_out;
+
+    // Instancia del módulo corregido
     selector_top dut (
-        .dato_corregido(dato_corregido),
-        .posicion_error(posicion_error),
-        .hacia_selector_A(hacia_selector_A),
-        .hacia_selector_B(hacia_selector_B),
-        .bin_desde_selector(bin_desde_selector),
-        .seg_out(seg_out)
+        .dato_corregido (dato_corregido),
+        .pos_error      (pos_error),
+        .switch_selector(switch_selector),
+        .salida_selector(salida_selector),
+        .seg_out        (seg_out),
+        .led_out        (led_out)
     );
 
-    // Lógica de simulación
     initial begin
         $dumpfile("selector_top_tb.vcd");
         $dumpvars(0, selector_top_tb);
 
-        $display("Tiempo | Dato Corr | Error Pos | Regreso Proto | Display 7seg");
-        $display("-------------------------------------------------------------");
+        $display("============================================================");
+        $display("         PRUEBA DE FUNCIONAMIENTO: SECCIÓN 7.5              ");
+        $display("============================================================");
+        $display("Tiempo | Switch | Dato Corr | Pos Error | Salida | LEDs | Seg");
+        $display("============================================================");
 
-        // CASO 1: Simulamos que el switch externo selecciona "Dato Corregido"
-        // Dato corregido = 5 (4'b0101), Posición error = 3 (3'b011)
-        dato_corregido = 4'h5; posicion_error = 3'h3;
-        bin_desde_selector = hacia_selector_A; // Simulamos switch en OFF (pasa A)
+        // ── CASO 1: switch=0 → salida debe ser dato_corregido ──────────
+        dato_corregido  = 4'h5;   // 0101
+        pos_error       = 3'b011; // posición 3
+        switch_selector = 1'b0;
         #10;
-        $display("%t |    %h     |     %h     |       %h       |   %b", $time, dato_corregido, posicion_error, bin_desde_selector, seg_out);
+        $display("%4t  |   %b  |     %h     |     %b    |   %h    |  %b  | %b",
+                 $time, switch_selector, dato_corregido,
+                 pos_error, salida_selector, led_out, seg_out);
 
-        // CASO 2: Simulamos que el switch externo selecciona "Posición del Error"
-        // El selector externo debería devolver el síndrome
-        bin_desde_selector = {1'b0, hacia_selector_B}; // Simulamos switch en ON (pasa B con MSB en 0)
+        // ── CASO 2: switch=1 → salida debe ser {0, pos_error} ──────────
+        switch_selector = 1'b1;
         #10;
-        $display("%t |    %h     |     %h     |       %h       |   %b", $time, dato_corregido, posicion_error, bin_desde_selector, seg_out);
+        $display("%4t  |   %b  |     %h     |     %b    |   %h    |  %b  | %b",
+                 $time, switch_selector, dato_corregido,
+                 pos_error, salida_selector, led_out, seg_out);
 
-        // CASO 3: Otro valor (Dato = A, Error = 1)
-        dato_corregido = 4'hA; posicion_error = 3'h1;
-        bin_desde_selector = hacia_selector_A; // Volvemos a mostrar el dato
+        // ── CASO 3: otro valor, switch=0 ────────────────────────────────
+        dato_corregido  = 4'hA;   // 1010
+        pos_error       = 3'b001; // posición 1
+        switch_selector = 1'b0;
         #10;
-        $display("%t |    %h     |     %h     |       %h       |   %b", $time, dato_corregido, posicion_error, bin_desde_selector, seg_out);
+        $display("%4t  |   %b  |     %h     |     %b    |   %h    |  %b  | %b",
+                 $time, switch_selector, dato_corregido,
+                 pos_error, salida_selector, led_out, seg_out);
 
+        // ── CASO 4: mismo valor, switch=1 ───────────────────────────────
+        switch_selector = 1'b1;
         #10;
-        $finish;
+        $display("%4t  |   %b  |     %h     |     %b    |   %h    |  %b  | %b",
+                 $time, switch_selector, dato_corregido,
+                 pos_error, salida_selector, led_out, seg_out);
+
+        // ── CASO 5: sin error (pos_error=0), switch=1 ───────────────────
+        dato_corregido  = 4'hF;
+        pos_error       = 3'b000;
+        switch_selector = 1'b1;
+        #10;
+        $display("%4t  |   %b  |     %h     |     %b    |   %h    |  %b  | %b",
+                 $time, switch_selector, dato_corregido,
+                 pos_error, salida_selector, led_out, seg_out);
+
+        $display("============================================================");
+        $display(" SIMULACIÓN FINALIZADA CON ÉXITO ");
+        $display("============================================================");
+
+        #10 $finish;
     end
+
 endmodule
