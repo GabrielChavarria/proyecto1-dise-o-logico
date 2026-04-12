@@ -14,7 +14,7 @@
 
 `timescale 1ns/1ps
 
-module tb_detector_error_tb;
+module detector_error_tb;
 
     // ----------------------------------------------------------
     // Señales del DUT

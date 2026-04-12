@@ -11,7 +11,7 @@
 
 `timescale 1ns/1ps
 
-module tb_corrector_error;
+module corrector_error_tb;
 
     // ----------------------------------------------------------
     // Señales del DUT
