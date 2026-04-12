@@ -17,9 +17,12 @@ SOURCES := $(wildcard ../design/**/*.v ../design/**/*.sv) #Todas las fuentes .v 
 
 #Fuente de simulacion
 #aca va el testbench que quieran simular
-TESTBENCH = ../sim/receptor_top_tb.sv
+#TESTBENCH = ../sim/receptor_top_tb.sv
 #TESTBENCH  = ../sim/interfaz_leds_tb.sv
 #TESTBENCH = ../sim/decodificador_7seg_tb.sv
+TESTBENCH = ../sim/detector_error_tb.sv     
+#TESTBENCH = ../sim/corrector_error_tb.sv   
+
 
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
@@ -28,15 +31,14 @@ CONSTRAINTS = ../constr/receptor.cst
 #CONSTRAINTS = ../constr/deco_7seg.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
-#TOP_DESIGN = receptor_top
+TOP_DESIGN = receptor_top
 #TOP_DESIGN = interfaz_leds
 #TOP_DESIGN = decodificador_7seg_tb
-#TESTBENCH = ../sim/detector_error_tb.sv     
-#TESTBENCH = ../sim/corrector_error_tb.sv   
+
 #TOP_TB = receptor_top_tb
 #TOP_TB = interfaz_leds_tb
 #TOP_TB = decodificador_7seg_tb
-#TOP_TB = detector_error_tb                  
+TOP_TB = detector_error_tb                  
 #TOP_TB = corrector_error_tb 
 
 #nombre del vcd que va a generar el tb
