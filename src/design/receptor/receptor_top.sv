@@ -14,9 +14,10 @@
 module receptor_top (
 
     // ----------------------------------------------------------
-    // Entradas desde el transmisor (7 bits Hamming)
+    // Entradas desde el transmisor (7 bits Hamming + 1 paridad global)
     // ----------------------------------------------------------
     input  [6:0] rx,             // palabra recibida
+    input        parity_global_in, // bit de paridad global recibido del transmisor
 
     // ----------------------------------------------------------
     // Switch selector (protoboard)
@@ -51,15 +52,10 @@ module receptor_top (
     wire [1:0] error_type;        // clasificación SECDED
 
     // ----------------------------------------------------------
-    // Paridad global (Opción B: calculada localmente)
-    // XOR de los 7 bits recibidos
+    // Paridad global recibida del transmisor (bit separado)
     // ----------------------------------------------------------
-    wire parity_global;
-    assign parity_global = rx[0] ^ rx[1] ^ rx[2] ^ rx[3] ^
-                           rx[4] ^ rx[5] ^ rx[6];
-
     wire [7:0] rx_ext;
-    assign rx_ext = {parity_global, rx};
+    assign rx_ext = {parity_global_in, rx};
 
     // ----------------------------------------------------------
     // Módulo 7.1: Detector de error

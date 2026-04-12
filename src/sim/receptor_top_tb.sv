@@ -22,6 +22,7 @@ module receptor_top_tb;
     // Señales del DUT — sin logic, compatible con iVerilog
     // ----------------------------------------------------------
     reg  [6:0] rx;
+    reg        parity_global_in;
     reg        switch_selector;
     wire [3:0] salida_selector;
     wire [6:0] seg_out;
@@ -32,12 +33,13 @@ module receptor_top_tb;
     // Instancia del DUT
     // ----------------------------------------------------------
     receptor_top DUT (
-        .rx              (rx),
-        .switch_selector (switch_selector),
-        .salida_selector (salida_selector),
-        .seg_out         (seg_out),
-        .led_out         (led_out),
-        .error_pos       (error_pos)
+        .rx               (rx),
+        .parity_global_in (parity_global_in),
+        .switch_selector  (switch_selector),
+        .salida_selector  (salida_selector),
+        .seg_out          (seg_out),
+        .led_out          (led_out),
+        .error_pos        (error_pos)
     );
 
     // ----------------------------------------------------------
@@ -76,7 +78,8 @@ module receptor_top_tb;
         $dumpfile("receptor_top_tb.vcd");
         $dumpvars(0, receptor_top_tb);
 
-        switch_selector = 0;
+        switch_selector  = 0;
+        parity_global_in = 0; // datos=1011: XOR(7'b0110011)=0
 
         $display("============================================");
         $display("  TESTBENCH: receptor_top");
@@ -87,26 +90,26 @@ module receptor_top_tb;
         // CASO 1: sin error
         verificar(7'b0110011, 3'b000, 4'b1011, 1);
 
-        // CASO 2: error en posición 1 (rx[0])
-        verificar(7'b0110010, 3'b001, 4'b1011, 2);
+        // CASO 2: error en rx[0]=d1 → síndrome=111 (posición 7)
+        verificar(7'b0110010, 3'b111, 4'b1011, 2);
 
-        // CASO 3: error en posición 2 (rx[1])
-        verificar(7'b0110001, 3'b010, 4'b1011, 3);
+        // CASO 3: error en rx[1]=d2 → síndrome=110 (posición 6)
+        verificar(7'b0110001, 3'b110, 4'b1011, 3);
 
-        // CASO 4: error en posición 3 (rx[2])
-        verificar(7'b0110111, 3'b011, 4'b1011, 4);
+        // CASO 4: error en rx[2]=d3 → síndrome=101 (posición 5)
+        verificar(7'b0110111, 3'b101, 4'b1011, 4);
 
-        // CASO 5: error en posición 4 (rx[3]=p4)
+        // CASO 5: error en rx[3]=p4 → síndrome=100 (posición 4)
         verificar(7'b0111011, 3'b100, 4'b1011, 5);
 
-        // CASO 6: error en posición 5 (rx[4]=d4)
-        verificar(7'b0100011, 3'b101, 4'b1011, 6);
+        // CASO 6: error en rx[4]=d4 → síndrome=011 (posición 3)
+        verificar(7'b0100011, 3'b011, 4'b1011, 6);
 
-        // CASO 7: error en posición 6 (rx[5]=p2)
-        verificar(7'b0010011, 3'b110, 4'b1011, 7);
+        // CASO 7: error en rx[5]=p2 → síndrome=010 (posición 2)
+        verificar(7'b0010011, 3'b010, 4'b1011, 7);
 
-        // CASO 8: error en posición 7 (rx[6]=p1)
-        verificar(7'b1110011, 3'b111, 4'b1011, 8);
+        // CASO 8: error en rx[6]=p1 → síndrome=001 (posición 1)
+        verificar(7'b1110011, 3'b001, 4'b1011, 8);
 
         // ----------------------------------------------------------
         // CASO 9: doble error — dato no confiable
@@ -122,10 +125,10 @@ module receptor_top_tb;
             $display("ERROR <<<");
 
         // ----------------------------------------------------------
-        // CASO 10: switch=1 con error en pos 1 → salida_selector=síndrome
+        // CASO 10: switch=1 con error en rx[6]=p1 → síndrome=001 → salida_selector=0001
         // ----------------------------------------------------------
-        $display("\n[CASO 10] switch=1, error pos 1 → salida_selector debe ser 0001");
-        rx = 7'b0110010;
+        $display("\n[CASO 10] switch=1, error rx[6]=p1, sindrome=001 → salida_selector debe ser 0001");
+        rx = 7'b1110011;
         switch_selector = 1;
         #10;
         $write("[CASO 10] rx=%b switch=1 | salida_selector=%b | esperado=0001 | ",
@@ -136,9 +139,9 @@ module receptor_top_tb;
             $display("ERROR <<<");
 
         // ----------------------------------------------------------
-        // CASO 11: switch=0 con error en pos 1 → salida_selector=dato corregido
+        // CASO 11: switch=0 con error en rx[6]=p1 → salida_selector=dato corregido
         // ----------------------------------------------------------
-        $display("\n[CASO 11] switch=0, error pos 1 → salida_selector debe ser 1011");
+        $display("\n[CASO 11] switch=0, error rx[6]=p1 → salida_selector debe ser 1011");
         switch_selector = 0;
         #10;
         $write("[CASO 11] rx=%b switch=0 | salida_selector=%b | esperado=1011 | ",
@@ -154,10 +157,12 @@ module receptor_top_tb;
         $display("\n  Casos borde");
         $display("--------------------------------------------");
 
-        // datos=0000
+        // datos=0000: XOR(7'b0000000)=0
+        parity_global_in = 0;
         verificar(7'b0000000, 3'b000, 4'b0000, 12);
 
-        // datos=1111, rx=7'b1111111
+        // datos=1111: XOR(7'b1111111)=1
+        parity_global_in = 1;
         verificar(7'b1111111, 3'b000, 4'b1111, 13);
 
         $display("============================================");

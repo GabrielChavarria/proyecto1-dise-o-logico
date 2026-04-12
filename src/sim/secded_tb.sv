@@ -73,13 +73,13 @@ module secded_tb;
         // CASO 1: sin error → parity=0, syndrome=000 → error_type=00
         verificar(8'b00110011, 3'b000, 2'b00, 1);
 
-        // CASO 2: 1 error en rx[0] → parity=1, syndrome=001 → error_type=01
-        // rx con error = 7'b0110010, parity=1 → rx_ext=8'b10110010
-        verificar(8'b10110010, 3'b001, 2'b01, 2);
+        // CASO 2: 1 error en rx[0] → parity_calc=1, syndrome=001 → error_type=01
+        // rx con error = 7'b0110010, parity_global=0 (sin cambio) → rx_ext=8'b00110010
+        verificar(8'b00110010, 3'b001, 2'b01, 2);
 
-        // CASO 3: 1 error en rx[4] → parity=1, syndrome=101 → error_type=01
-        // rx con error = 7'b0100011, parity=1 → rx_ext=8'b10100011
-        verificar(8'b10100011, 3'b101, 2'b01, 3);
+        // CASO 3: 1 error en rx[4] → parity_calc=1, syndrome=101 → error_type=01
+        // rx con error = 7'b0100011, parity_global=0 (sin cambio) → rx_ext=8'b00100011
+        verificar(8'b00100011, 3'b101, 2'b01, 3);
 
         // CASO 4: doble error en rx[0] y rx[1]
         // rx=7'b0110000, parity=0, syndrome≠0 → error_type=10
@@ -105,8 +105,8 @@ module secded_tb;
         // sin error
         verificar(8'b00000000, 3'b000, 2'b00, 7);
 
-        // 1 error en rx[0] → rx=7'b0000001, parity=1
-        verificar(8'b10000001, 3'b001, 2'b01, 8);
+        // 1 error en rx[0] → rx=7'b0000001, parity_global=0 (sin cambio) → rx_ext=8'b00000001
+        verificar(8'b00000001, 3'b001, 2'b01, 8);
 
         // doble error rx[0] y rx[1] → rx=7'b0000011, parity=0
         verificar(8'b00000011, 3'b011, 2'b10, 9);
@@ -125,8 +125,8 @@ module secded_tb;
         // sin error
         verificar(8'b11111111, 3'b000, 2'b00, 11);
 
-        // 1 error en rx[0] → rx=7'b1111110, parity=0 → rx_ext=8'b01111110
-        verificar(8'b01111110, 3'b001, 2'b01, 12);
+        // 1 error en rx[0] → rx=7'b1111110, parity_global=1 (sin cambio) → rx_ext=8'b11111110
+        verificar(8'b11111110, 3'b001, 2'b01, 12);
 
         // doble error rx[0] y rx[1] → rx=7'b1111100, parity=1 → rx_ext=8'b11111100
         verificar(8'b11111100, 3'b011, 2'b10, 13);

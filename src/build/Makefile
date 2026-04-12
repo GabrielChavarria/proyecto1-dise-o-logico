@@ -17,11 +17,12 @@ SOURCES := $(wildcard ../design/**/*.v ../design/**/*.sv) #Todas las fuentes .v 
 
 #Fuente de simulacion
 #aca va el testbench que quieran simular
-#TESTBENCH = ../sim/receptor_top_tb.sv
+TESTBENCH = ../sim/receptor_top_tb.sv
 #TESTBENCH  = ../sim/interfaz_leds_tb.sv
 #TESTBENCH = ../sim/decodificador_7seg_tb.sv
-TESTBENCH = ../sim/detector_error_tb.sv     
-#TESTBENCH = ../sim/corrector_error_tb.sv   
+#TESTBENCH = ../sim/detector_error_tb.sv
+#TESTBENCH = ../sim/corrector_error_tb.sv
+#TESTBENCH = ../sim/secded_tb.sv
 
 
 # Constraints para el proyecto
@@ -35,18 +36,20 @@ TOP_DESIGN = receptor_top
 #TOP_DESIGN = interfaz_leds
 #TOP_DESIGN = decodificador_7seg_tb
 
-#TOP_TB = receptor_top_tb
+TOP_TB = receptor_top_tb
 #TOP_TB = interfaz_leds_tb
 #TOP_TB = decodificador_7seg_tb
-TOP_TB = detector_error_tb                  
-#TOP_TB = corrector_error_tb 
+#TOP_TB = detector_error_tb
+#TOP_TB = corrector_error_tb
+#TOP_TB = secded_tb
 
 #nombre del vcd que va a generar el tb
-#VCD_FILE = receptor_top_tb.vcd
+VCD_FILE = receptor_top_tb.vcd
 #VCD_FILE   = interfaz_leds_tb.vcd
-#VCD_FILE   = decodificador_7seg_tb.vcd
-#VCD_FILE = detector_error_tb.vcd             
-#VCD_FILE = corrector_error_tb.vcd  
+#VCD_FILE = decodificador_7seg_tb.vcd
+#VCD_FILE = detector_error_tb.vcd
+#VCD_FILE = corrector_error_tb.vcd
+#VCD_FILE = secded_tb.vcd
 
 all: synth pnr bitstream load
 
