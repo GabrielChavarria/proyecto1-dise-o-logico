@@ -28,19 +28,23 @@ CONSTRAINTS = ../constr/receptor.cst
 #CONSTRAINTS = ../constr/deco_7seg.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
-TOP_DESIGN = receptor_top
+#TOP_DESIGN = receptor_top
 #TOP_DESIGN = interfaz_leds
-#TOP_DESIGN = decodificador_7seg
-TOP_TB = receptor_top_tb
+#TOP_DESIGN = decodificador_7seg_tb
+#TESTBENCH = ../sim/detector_error_tb.sv     
+#TESTBENCH = ../sim/corrector_error_tb.sv   
+#TOP_TB = receptor_top_tb
 #TOP_TB = interfaz_leds_tb
 #TOP_TB = decodificador_7seg_tb
-
+#TOP_TB = detector_error_tb                  
+#TOP_TB = corrector_error_tb 
 
 #nombre del vcd que va a generar el tb
-VCD_FILE = receptor_top_tb.vcd
+#VCD_FILE = receptor_top_tb.vcd
 #VCD_FILE   = interfaz_leds_tb.vcd
 #VCD_FILE   = decodificador_7seg_tb.vcd
-
+#VCD_FILE = detector_error_tb.vcd             
+#VCD_FILE = corrector_error_tb.vcd  
 
 all: synth pnr bitstream load
 
