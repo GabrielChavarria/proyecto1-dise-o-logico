@@ -7,11 +7,10 @@ DEVICE = GW1NR-LV9QN88PC6/I5
 
 #Nombre del proyecto... Acá ponen el nombre que deseen.
 PROYECT = receptor
-#PROYECT    = interfaz_leds
-#PROYECT = decodificador_7seg
+
 
 #Fuentes de diseno
-SOURCES := $(wildcard ../design/receptor/*.v ../design/receptor/*.sv) #Todas las fuentes .v o .sv que estan en design
+SOURCES := $(wildcard ../design/**/*.v ../design/**/*.sv) #Todas las fuentes .v o .sv que estan en design
 #Si quieren indicarlas una a una, pueden hacerlo como en este ejemplo:
 #SOURCES = ../design/module_top_deco_gray.v ../design/module_input_deco_gray.v 
 
@@ -20,27 +19,35 @@ SOURCES := $(wildcard ../design/receptor/*.v ../design/receptor/*.sv) #Todas las
 TESTBENCH = ../sim/receptor_top_tb.sv
 #TESTBENCH  = ../sim/interfaz_leds_tb.sv
 #TESTBENCH = ../sim/decodificador_7seg_tb.sv
+#TESTBENCH = ../sim/detector_error_tb.sv
+#TESTBENCH = ../sim/corrector_error_tb.sv
+#TESTBENCH = ../sim/secded_tb.sv
+
 
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
 CONSTRAINTS = ../constr/receptor.cst
-#CONSTRAINTS = ../constr/interfaz.cst
-#CONSTRAINTS = ../constr/deco_7seg.cst
+
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
 TOP_DESIGN = receptor_top
 #TOP_DESIGN = interfaz_leds
-#TOP_DESIGN = decodificador_7seg
+#TOP_DESIGN = decodificador_7seg_tb
+
 TOP_TB = receptor_top_tb
 #TOP_TB = interfaz_leds_tb
 #TOP_TB = decodificador_7seg_tb
-
+#TOP_TB = detector_error_tb
+#TOP_TB = corrector_error_tb
+#TOP_TB = secded_tb
 
 #nombre del vcd que va a generar el tb
 VCD_FILE = receptor_top_tb.vcd
 #VCD_FILE   = interfaz_leds_tb.vcd
-#VCD_FILE   = decodificador_7seg_tb.vcd
-
+#VCD_FILE = decodificador_7seg_tb.vcd
+#VCD_FILE = detector_error_tb.vcd
+#VCD_FILE = corrector_error_tb.vcd
+#VCD_FILE = secded_tb.vcd
 
 all: synth pnr bitstream load
 
