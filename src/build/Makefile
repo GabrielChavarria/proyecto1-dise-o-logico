@@ -7,8 +7,7 @@ DEVICE = GW1NR-LV9QN88PC6/I5
 
 #Nombre del proyecto... Acá ponen el nombre que deseen.
 PROYECT = receptor
-#PROYECT    = interfaz_leds
-#PROYECT = decodificador_7seg
+
 
 #Fuentes de diseno
 SOURCES := $(wildcard ../design/**/*.v ../design/**/*.sv) #Todas las fuentes .v o .sv que estan en design
@@ -28,8 +27,7 @@ TESTBENCH = ../sim/receptor_top_tb.sv
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
 CONSTRAINTS = ../constr/receptor.cst
-#CONSTRAINTS = ../constr/interfaz.cst
-#CONSTRAINTS = ../constr/deco_7seg.cst
+
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
 TOP_DESIGN = receptor_top
