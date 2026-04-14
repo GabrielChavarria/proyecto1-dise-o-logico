@@ -89,6 +89,6 @@ Esta organización permite mantener un flujo de trabajo más ordenado, facilita 
 - [Módulo 7.4.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.4-M%C3%B3dulo-de-despliegue-de-palabra-corregida-en-display-de-7-segmentos) - Despliegue de palabra corregida en display de 7SEG
 - [Módulo 7.5.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.5-Selector) - Selector
 - [Módulo 7.9.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/7.9-Oscilador-de-Anillo-y-Medici%C3%B3n-de-Retardos) -Oscilador de Anillo y Medición de Retardos
-- - [Módulo 8.1.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/8.1-Dise%C3%B1o-extra-%E2%80%90-SECDED) - Diseño extra - SECDED
+- [Módulo 8.1.](https://github.com/GabrielChavarria/proyecto1-dise-o-logico/wiki/8.1-Dise%C3%B1o-extra-%E2%80%90-SECDED) - Diseño extra - SECDED
 ---
 
