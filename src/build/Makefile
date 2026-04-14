@@ -9,7 +9,8 @@ DEVICE = GW1NR-LV9QN88PC6/I5
 #PROYECT = receptor
 #PROYECT    = interfaz_leds
 #PROYECT = decodificador_7seg
-PROYECT = selector_top
+#PROYECT = selector_top
+PROYECT = secded_detector
 
 #Fuentes de diseno
 SOURCES := $(wildcard ../design/receptor/*.v ../design/receptor/*.sv) #Todas las fuentes .v o .sv que estan en design
@@ -21,31 +22,36 @@ SOURCES := $(wildcard ../design/receptor/*.v ../design/receptor/*.sv) #Todas las
 #TESTBENCH = ../sim/receptor_top_tb.sv
 #TESTBENCH  = ../sim/interfaz_leds_tb.sv
 #TESTBENCH = ../sim/decodificador_7seg_tb.sv
-TESTBENCH = ../sim/selector_top_tb.sv
+#TESTBENCH = ../sim/selector_top_tb.sv
+TESTBENCH = ../sim/secded_detector_tb.sv
 
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
 #CONSTRAINTS = ../constr/receptor.cst
 #CONSTRAINTS = ../constr/interfaz.cst
 #CONSTRAINTS = ../constr/deco_7seg.cst
-CONSTRAINTS = ../constr/selector.cst
+#CONSTRAINTS = ../constr/selector.cst
+CONSTRAINTS = ../constr/secded_detector.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
 #TOP_DESIGN = receptor_top
 #TOP_DESIGN = interfaz_leds
 #TOP_DESIGN = decodificador_7seg
-TOP_DESIGN = selector_top
+#TOP_DESIGN = selector_top
+TOP_DESIGN = secded_detector
 #TOP_TB = receptor_top_tb
 #TOP_TB = interfaz_leds_tb
 #TOP_TB = decodificador_7seg_tb
-TOP_TB = selector_top_tb
+#TOP_TB = selector_top_tb
+TOP_TB = secded_detector_tb
 
 
 #nombre del vcd que va a generar el tb
 #VCD_FILE = receptor_top_tb.vcd
 #VCD_FILE   = interfaz_leds_tb.vcd
 #VCD_FILE   = decodificador_7seg_tb.vcd
-VCD_FILE   = selector_top_tb.vcd
+#VCD_FILE   = selector_top_tb.vcd
+VCD_FILE   = secded_detector_tb.vcd
 
 
 all: synth pnr bitstream load
