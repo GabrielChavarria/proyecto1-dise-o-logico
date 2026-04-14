@@ -23,7 +23,7 @@ module decodificador_7seg (
             4'hD: seg_out = 7'b1011110; // D
             4'hE: seg_out = 7'b1111001; // E
             4'hF: seg_out = 7'b1110001; // F
-            default: seg_out = 7'b0000000;
+            default: seg_out = 7'b0111111; // Mostrar 0 por defecto
         endcase
     end
 

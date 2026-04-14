@@ -1,32 +1,28 @@
-// Módulo SECDED: detecta doble error y clasifica
+// ============================================================
+// Módulo SECDED: Clasificación de errores (Hamming extendido)
+// EL-3307 Diseño Lógico — I Semestre 2026
+// ============================================================
+
 module secded_detector (
-
-    input  [7:0] rx_ext,      // 7 bits Hamming + 1 bit de paridad
-    input  [2:0] syndrome,    // del detector
-    output reg [1:0] error_type
-
+    input  logic [7:0] rx_ext,   // {parity_global_in, rx[6:0]}
+    input  logic [2:0] syndrome, // Síndrome proveniente del detector_error
+    output logic [1:0] error_type
 );
 
-    wire parity_calc;
+    logic parity_calc;
 
-    // XOR de todos los bits
-    assign parity_calc = rx_ext[0] ^ rx_ext[1] ^ rx_ext[2] ^
-                         rx_ext[3] ^ rx_ext[4] ^ rx_ext[5] ^
-                         rx_ext[6] ^ rx_ext[7];
+    // Reducción XOR para calcular la paridad total de los 8 bits
+    assign parity_calc = ^rx_ext;
 
-always @(*) begin
+    always_comb begin
+        if (parity_calc == 1'b0 && syndrome == 3'b000)
+            error_type = 2'b00; // Sin error
+        else if (parity_calc == 1'b1 && syndrome != 3'b000)
+            error_type = 2'b01; // Error simple (corregible)
+        else if (parity_calc == 1'b0 && syndrome != 3'b000)
+            error_type = 2'b10; // Doble error (detectado, no corregible)
+        else
+            error_type = 2'b11; // Error solo en el bit de paridad global
+    end
 
-    if (parity_calc == 0 && syndrome == 0)
-        error_type = 2'b00; // sin error
-
-    else if (parity_calc == 1 && syndrome != 0)
-        error_type = 2'b01; // 1 error
-
-    else if (parity_calc == 0 && syndrome != 0)
-        error_type = 2'b10; // doble error
-
-    else
-        error_type = 2'b11; // error en bit de paridad
-
-end
 endmodule
