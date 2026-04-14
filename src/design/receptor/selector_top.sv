@@ -28,7 +28,7 @@ module selector_top (
         .seg_out(seg_out)
     );
 
-    //--- 3. LEDs: siempre muestran el dato corregido (según diagrama Fig. 3) ---
+    //--- 3. LEDs: siempre muestran el dato corregido ---
     assign led_out = dato_corregido;
 
 endmodule
