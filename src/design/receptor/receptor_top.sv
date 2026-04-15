@@ -1,83 +1,125 @@
 // ============================================================
-// TOP MODULE: receptor_top
+// MODULO PRINCIPAL: Receptor con Decodificador Hamming(7,4)
 // ============================================================
 
-module receptor_top (
-    input  logic [6:0] rx,               // Palabra Hamming recibida
-    input  logic       switch_selector,  // 0=dato corregido, 1=síndrome
-
-    output logic [3:0] leds_out,         // LEDs → dato corregido
-    output logic [6:0] seg_out,          // Display 7 segmentos
-    output logic [3:0] salida_selector   // FALTABA en tu versión
+module top_receptor (
+    input  logic [6:0] rx,               // Palabra Hamming recibida con posibles errores
+    input  logic       switch_selector,   // 0=dato corregido, 1=síndrome
+    output logic [3:0] leds_out,          // LEDs → dato corregido
+    output logic [6:0] seg_out            // Display 7 segmentos
 );
 
-    // --------------------------------------------------------
-    // Señales internas entre módulos
-    // --------------------------------------------------------
-    logic [2:0] error_pos;      
-    logic [3:0] dato_corregido; 
+    logic [2:0] error_pos;      // Posición del error detectado
+    logic [6:0] corrected_data; // Datos corregidos
 
-    // --------------------------------------------------------
-    // Lógica integrada del Detector de error (7.1)
-    // --------------------------------------------------------
-    assign error_pos[0] = rx[6] ^ rx[4] ^ rx[2] ^ rx[0];
-    assign error_pos[1] = rx[5] ^ rx[4] ^ rx[1] ^ rx[0];
-    assign error_pos[2] = rx[3] ^ rx[2] ^ rx[1] ^ rx[0];
+    // Decodificador Hamming (Detector de error y corrección)
+    hamming74_decoder U1 (
+        .rx(rx),
+        .error_pos(error_pos),
+        .corrected_data(corrected_data)
+    );
 
-    // --------------------------------------------------------
-    // Lógica integrada del Corrector de error (7.2)
-    // --------------------------------------------------------
-    logic [6:0] rx_fixed;
+    // Módulo de visualización de 7 segmentos para el dato corregido
+    bin_to_7seg U2 (
+        .sw(corrected_data[3:0]),
+        .segments(seg_out)
+    );
 
-    assign rx_fixed[0] = (error_pos == 3'b111) ? ~rx[0] : rx[0];
-    assign rx_fixed[1] = (error_pos == 3'b110) ? ~rx[1] : rx[1];
-    assign rx_fixed[2] = (error_pos == 3'b101) ? ~rx[2] : rx[2];
-    assign rx_fixed[3] = (error_pos == 3'b100) ? ~rx[3] : rx[3];
-    assign rx_fixed[4] = (error_pos == 3'b011) ? ~rx[4] : rx[4];
-    assign rx_fixed[5] = (error_pos == 3'b010) ? ~rx[5] : rx[5];
-    assign rx_fixed[6] = (error_pos == 3'b001) ? ~rx[6] : rx[6];
+    // LEDs para mostrar el dato corregido
+    assign leds_out = corrected_data[3:0];
 
-    assign dato_corregido = {rx_fixed[4], rx_fixed[2], rx_fixed[1], rx_fixed[0]};
+endmodule
 
-    // --------------------------------------------------------
-    // Lógica integrada de Interfaz LEDs (7.3)
-    // --------------------------------------------------------
-    assign leds_out = dato_corregido;
+// ============================================================
+// MODULO 6.1: Decodificador Hamming(7,4) y corrección de errores
+// ============================================================
 
-    // --------------------------------------------------------
-    // Lógica integrada del Selector (7.5) y Decodificador 7 segmentos
-    // --------------------------------------------------------
-    logic [3:0] salida_selector_int;
+module hamming74_decoder (
+    input  logic [6:0] rx,              // Palabra Hamming recibida
+    output logic [2:0] error_pos,       // Posición del error detectado (si existe)
+    output logic [6:0] corrected_data   // Datos corregidos
+);
 
+    logic [3:0] d;   // Datos de salida
+    logic p1, p2, p4; // Paridad calculada
+
+    // Calculamos la paridad según los bits recibidos
     always_comb begin
-        case (switch_selector)
-            1'b0: salida_selector_int = dato_corregido;
-            1'b1: salida_selector_int = {1'b0, error_pos};
-        endcase
-    end
+        // Cálculo de paridad
+        p1 = rx[6] ^ rx[5] ^ rx[4] ^ rx[2] ^ rx[1] ^ rx[0]; // Paridad p1
+        p2 = rx[6] ^ rx[5] ^ rx[3] ^ rx[2] ^ rx[1] ^ rx[0]; // Paridad p2
+        p4 = rx[6] ^ rx[4] ^ rx[3] ^ rx[2] ^ rx[1] ^ rx[0]; // Paridad p4
 
-    assign salida_selector = salida_selector_int;
+        // Detección de error basado en el síndrome
+        error_pos = {p4, p2, p1}; // Síndrome de error (compara con 0)
 
-    always_comb begin
-        case (salida_selector_int)
-            4'h0: seg_out = 7'b0111111;
-            4'h1: seg_out = 7'b0000110;
-            4'h2: seg_out = 7'b1011011;
-            4'h3: seg_out = 7'b1001111;
-            4'h4: seg_out = 7'b1100110;
-            4'h5: seg_out = 7'b1101101;
-            4'h6: seg_out = 7'b1111101;
-            4'h7: seg_out = 7'b0000111;
-            4'h8: seg_out = 7'b1111111;
-            4'h9: seg_out = 7'b1101111;
-            4'hA: seg_out = 7'b1110111;
-            4'hB: seg_out = 7'b1111100;
-            4'hC: seg_out = 7'b0111001;
-            4'hD: seg_out = 7'b1011110;
-            4'hE: seg_out = 7'b1111001;
-            4'hF: seg_out = 7'b1110001;
-            default: seg_out = 7'b0111111;
-        endcase
+        // Corregir los datos si hay error
+        if (error_pos != 3'b000) begin
+            // Se detecta un error en la posición indicada por el síndrome
+            corrected_data = rx ^ (1 << (error_pos - 1)); // Corregir el bit erróneo
+        end else begin
+            // Si no hay error, los datos son correctos
+            corrected_data = rx;
+        end
     end
+endmodule
+
+// ============================================================
+// MODULO 6.2: Display de 7 segmentos
+// ============================================================
+
+module bin_to_7seg (
+    input  logic [3:0] sw,
+    output logic [6:0] segments
+);
+
+    logic AIN, BIN, CIN, DIN;
+    logic AIN_N, BIN_N, CIN_N, DIN_N;
+    logic SA, SB, SC, SD, SE, SF, SG;
+
+    assign AIN = sw[3];
+    assign BIN = sw[2];
+    assign CIN = sw[1];
+    assign DIN = sw[0];
+
+    assign AIN_N = ~AIN;
+    assign BIN_N = ~BIN;
+    assign CIN_N = ~CIN;
+    assign DIN_N = ~DIN;
+
+    assign SA = (DIN_N & (AIN | BIN_N)) | 
+                (AIN_N & (CIN | (BIN & DIN))) | 
+                (BIN & CIN) | 
+                (AIN & BIN_N & CIN_N);
+
+    assign SB = (BIN_N & (AIN_N | DIN_N)) | 
+                (AIN_N & (~(CIN ^ DIN))) | 
+                (AIN & DIN & CIN_N);
+
+    assign SC = (AIN & BIN_N) | 
+                (AIN_N & (BIN | DIN | CIN_N)) | 
+                (DIN & CIN_N);
+
+    assign SD = (DIN_N & ((AIN_N & BIN_N) | (BIN & CIN) | (AIN & CIN_N))) | 
+                (DIN & ((BIN & CIN_N) | (BIN_N & CIN)));
+
+    assign SE = (DIN_N & (BIN_N | CIN)) | 
+                (AIN & (CIN | BIN));
+
+    assign SF = (AIN & (CIN | BIN_N)) | 
+                (DIN_N & (BIN | CIN_N)) | 
+                (AIN_N & BIN & CIN_N);
+
+    assign SG = (AIN & (DIN | BIN_N)) | 
+                (CIN & (BIN_N | DIN_N)) | 
+                (AIN_N & BIN & CIN_N);
+
+    assign segments[0] = SA;
+    assign segments[1] = SB;
+    assign segments[2] = SC;
+    assign segments[3] = SD;
+    assign segments[4] = SE;
+    assign segments[5] = SF;
+    assign segments[6] = SG;
 
 endmodule
