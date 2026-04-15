@@ -55,7 +55,7 @@ IO_PORT "seg_out[0]" DRIVE=8 IO_TYPE=LVCMOS33;
 IO_LOC  "switch_selector" 34;
 IO_PORT "switch_selector" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[6]" 33;
+IO_LOC  "rx[6]" 83;
 IO_PORT "rx[6]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
 IO_LOC  "rx[5]" 82;
