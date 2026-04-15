@@ -19,18 +19,6 @@ IO_PORT "error_pos[1]" DRIVE=8 IO_TYPE=LVCMOS33;
 IO_LOC  "error_pos[0]" 35;
 IO_PORT "error_pos[0]" DRIVE=8 IO_TYPE=LVCMOS33;
 
-IO_LOC  "salida_selector[3]" 61;
-IO_PORT "salida_selector[3]" DRIVE=8 IO_TYPE=LVCMOS33;
-
-IO_LOC  "salida_selector[2]" 60;
-IO_PORT "salida_selector[2]" DRIVE=8 IO_TYPE=LVCMOS33;
-
-IO_LOC  "salida_selector[1]" 69;
-IO_PORT "salida_selector[1]" DRIVE=8 IO_TYPE=LVCMOS33;
-
-IO_LOC  "salida_selector[0]" 68;
-IO_PORT "salida_selector[0]" DRIVE=8 IO_TYPE=LVCMOS33;
-
 IO_LOC  "seg_out[6]" 39;
 IO_PORT "seg_out[6]" DRIVE=8 IO_TYPE=LVCMOS33;
 
