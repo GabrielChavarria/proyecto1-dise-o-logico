@@ -4,9 +4,9 @@
 
 module top_receptor (
     input  logic [6:0] rx,               // Palabra Hamming recibida con posibles errores
-    input  logic       switch_selector,   // 0=dato corregido, 1=síndrome
-    output logic [3:0] leds_out,          // LEDs → dato corregido
-    output logic [6:0] seg_out            // Display 7 segmentos
+    input  logic       switch_selector,   // 0=dato corregido, 1=síndrome (posición del error)
+    output logic [3:0] leds_out,          // LEDs → dato corregido o posición del error
+    output logic [6:0] seg_out            // Display 7 segmentos → dato corregido o posición del error
 );
 
     logic [2:0] error_pos;      // Posición del error detectado
@@ -19,14 +19,18 @@ module top_receptor (
         .corrected_data(corrected_data)
     );
 
-    // Módulo de visualización de 7 segmentos para el dato corregido
-    bin_to_7seg U2 (
-        .sw(corrected_data[3:0]),
-        .segments(seg_out)
-    );
-
-    // LEDs para mostrar el dato corregido
-    assign leds_out = corrected_data[3:0];
+    // Lógica condicional para mostrar el dato corregido o la posición del error
+    always_comb begin
+        if (switch_selector == 1'b0) begin
+            // Mostrar dato corregido
+            leds_out = corrected_data[3:0];  // Los LEDs mostrarán los 4 bits corregidos
+            seg_out = corrected_data[6:0];   // El display de 7 segmentos muestra el dato corregido
+        end else begin
+            // Mostrar posición del error
+            leds_out = error_pos;            // Los LEDs mostrarán la posición del error (3 bits)
+            seg_out = {4'b0000, error_pos};  // El display de 7 segmentos muestra la posición del error
+        end
+    end
 
 endmodule
 
