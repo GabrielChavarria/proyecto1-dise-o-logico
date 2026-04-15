@@ -2,7 +2,7 @@
 // MODULO PRINCIPAL: Receptor con Decodificador Hamming(7,4)
 // ============================================================
 
-module top_receptor (
+module receptor_top (
     input  logic [6:0] rx,               // Palabra Hamming recibida con posibles errores
     input  logic       switch_selector,   // 0=dato corregido, 1=síndrome (posición del error)
     output logic [3:0] leds_out,          // LEDs → dato corregido o posición del error
