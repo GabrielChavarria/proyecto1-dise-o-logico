@@ -31,7 +31,7 @@ IO_PORT "salida_selector[1]" DRIVE=8 IO_TYPE=LVCMOS33;
 IO_LOC  "salida_selector[0]" 68;
 IO_PORT "salida_selector[0]" DRIVE=8 IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg_out[6]" 57;
+IO_LOC  "seg_out[6]" 39;
 IO_PORT "seg_out[6]" DRIVE=8 IO_TYPE=LVCMOS33;
 
 IO_LOC  "seg_out[5]" 56;
