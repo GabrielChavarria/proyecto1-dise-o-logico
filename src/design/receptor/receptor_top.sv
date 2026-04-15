@@ -26,7 +26,6 @@ module receptor_top (
 
     output logic [3:0] leds_out,         // LEDs → dato corregido
     output logic [6:0] seg_out,          // Display 7 segmentos
-    output logic [3:0] salida_selector   // Salida al selector externo
 );
 
     // --------------------------------------------------------
