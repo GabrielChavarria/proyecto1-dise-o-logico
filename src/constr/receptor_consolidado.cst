@@ -1,13 +1,13 @@
-IO_LOC  "data_out[3]" 75;
+IO_LOC  "data_out[3]" 76;
 IO_PORT "data_out[3]" DRIVE=8 IO_TYPE=LVCMOS33;
 
-IO_LOC  "data_out[2]" 74;
+IO_LOC  "data_out[2]" 75;
 IO_PORT "data_out[2]" DRIVE=8 IO_TYPE=LVCMOS33;
 
-IO_LOC  "data_out[1]" 73;
+IO_LOC  "data_out[1]" 74;
 IO_PORT "data_out[1]" DRIVE=8 IO_TYPE=LVCMOS33;
 
-IO_LOC  "data_out[0]" 72;
+IO_LOC  "data_out[0]" 73;
 IO_PORT "data_out[0]" DRIVE=8 IO_TYPE=LVCMOS33;
 
 IO_LOC  "error_pos[2]" 63;
@@ -58,20 +58,20 @@ IO_PORT "switch_selector" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 IO_LOC  "rx[6]" 33;
 IO_PORT "rx[6]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[5]" 30;
+IO_LOC  "rx[5]" 82;
 IO_PORT "rx[5]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[4]" 29;
+IO_LOC  "rx[4]" 81;
 IO_PORT "rx[4]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[3]" 28;
+IO_LOC  "rx[3]" 80;
 IO_PORT "rx[3]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[2]" 27;
+IO_LOC  "rx[2]" 79;
 IO_PORT "rx[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[1]" 26;
+IO_LOC  "rx[1]" 77;
 IO_PORT "rx[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "rx[0]" 25;
+IO_LOC  "rx[0]" 76;
 IO_PORT "rx[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
