@@ -1,23 +1,5 @@
 // ============================================================
 // TOP MODULE: receptor_top
-// EL-3307 Diseño Lógico — I Semestre 2026
-//
-// Jerarquía:
-//   receptor_top
-//   ├── detector_error   (Módulo 7.1) — calcula síndrome
-//   ├── corrector_error  (Módulo 7.2) — corrige bit erróneo y extrae datos
-//   ├── interfaz_leds    (Módulo 7.3) — mapea dato corregido a LEDs
-//   └── selector         (Módulo 7.5)
-//       └── decodificador_7seg (Módulo 7.4) — instanciado internamente
-//
-// Entradas externas:
-//   rx[6:0]          — palabra Hamming recibida (7 bits)
-//   switch_selector  — 0: mostrar dato corregido, 1: mostrar síndrome
-//
-// Salidas externas:
-//   leds_out[3:0]    — LEDs con el dato corregido (4 bits)
-//   seg_out[6:0]     — Display 7 segmentos {g,f,e,d,c,b,a} activo ALTO
-//   salida_selector[3:0] — dato o síndrome según switch
 // ============================================================
 
 module receptor_top (
@@ -26,49 +8,76 @@ module receptor_top (
 
     output logic [3:0] leds_out,         // LEDs → dato corregido
     output logic [6:0] seg_out,          // Display 7 segmentos
+    output logic [3:0] salida_selector   // ⚠️ FALTABA en tu versión
 );
 
     // --------------------------------------------------------
     // Señales internas entre módulos
     // --------------------------------------------------------
-    wire [2:0] error_pos;      // Síndrome (posición del error)
-    wire [3:0] dato_corregido; // 4 bits de datos corregidos
+    logic [2:0] error_pos;      
+    logic [3:0] dato_corregido; 
 
     // --------------------------------------------------------
-    // Módulo 7.1 — Detector de error (síndrome)
+    // Lógica integrada del Detector de error (7.1)
     // --------------------------------------------------------
-    detector_error U_detector (
-        .rx        (rx),
-        .error_pos (error_pos)
-    );
+    assign error_pos[0] = rx[6] ^ rx[4] ^ rx[2] ^ rx[0];
+    assign error_pos[1] = rx[5] ^ rx[4] ^ rx[1] ^ rx[0];
+    assign error_pos[2] = rx[3] ^ rx[2] ^ rx[1] ^ rx[0];
 
     // --------------------------------------------------------
-    // Módulo 7.2 — Corrector de error
+    // Lógica integrada del Corrector de error (7.2)
     // --------------------------------------------------------
-    corrector_error U_corrector (
-        .rx        (rx),
-        .error_pos (error_pos),
-        .corrected (dato_corregido)
-    );
+    logic [6:0] rx_fixed;
+
+    assign rx_fixed[0] = (error_pos == 3'b111) ? ~rx[0] : rx[0];
+    assign rx_fixed[1] = (error_pos == 3'b110) ? ~rx[1] : rx[1];
+    assign rx_fixed[2] = (error_pos == 3'b101) ? ~rx[2] : rx[2];
+    assign rx_fixed[3] = (error_pos == 3'b100) ? ~rx[3] : rx[3];
+    assign rx_fixed[4] = (error_pos == 3'b011) ? ~rx[4] : rx[4];
+    assign rx_fixed[5] = (error_pos == 3'b010) ? ~rx[5] : rx[5];
+    assign rx_fixed[6] = (error_pos == 3'b001) ? ~rx[6] : rx[6];
+
+    assign dato_corregido = {rx_fixed[4], rx_fixed[2], rx_fixed[1], rx_fixed[0]};
 
     // --------------------------------------------------------
-    // Módulo 7.3 — Interfaz de LEDs
+    // Lógica integrada de Interfaz LEDs (7.3)
     // --------------------------------------------------------
-    interfaz_leds U_leds (
-        .data_in  (dato_corregido),
-        .leds_out (leds_out)
-    );
+    assign leds_out = dato_corregido;
 
     // --------------------------------------------------------
-    // Módulo 7.5 — Selector + Display 7 segmentos (7.4 interno)
+    // Lógica integrada del Selector (7.5) y Decodificador 7 segmentos
     // --------------------------------------------------------
-    selector U_selector (
-        .dato_corregido  (dato_corregido),
-        .pos_error       (error_pos),
-        .switch_selector (switch_selector),
-        .salida_selector (salida_selector),
-        .seg_out         (seg_out),
-        .led_out         ()  // No conectado: leds_out ya lo maneja interfaz_leds
-    );
+    logic [3:0] salida_selector_int;
+
+    always_comb begin
+        case (switch_selector)
+            1'b0: salida_selector_int = dato_corregido;
+            1'b1: salida_selector_int = {1'b0, error_pos};
+        endcase
+    end
+
+    assign salida_selector = salida_selector_int;
+
+    always_comb begin
+        case (salida_selector_int)
+            4'h0: seg_out = 7'b0111111;
+            4'h1: seg_out = 7'b0000110;
+            4'h2: seg_out = 7'b1011011;
+            4'h3: seg_out = 7'b1001111;
+            4'h4: seg_out = 7'b1100110;
+            4'h5: seg_out = 7'b1101101;
+            4'h6: seg_out = 7'b1111101;
+            4'h7: seg_out = 7'b0000111;
+            4'h8: seg_out = 7'b1111111;
+            4'h9: seg_out = 7'b1101111;
+            4'hA: seg_out = 7'b1110111;
+            4'hB: seg_out = 7'b1111100;
+            4'hC: seg_out = 7'b0111001;
+            4'hD: seg_out = 7'b1011110;
+            4'hE: seg_out = 7'b1111001;
+            4'hF: seg_out = 7'b1110001;
+            default: seg_out = 7'b0111111;
+        endcase
+    end
 
 endmodule
