@@ -2,7 +2,7 @@
 // MODULO PRINCIPAL: Receptor con Decodificador Hamming(7,4)
 // ============================================================
 
-module receptor_top (
+module top_receptor (
     input  logic [6:0] rx,               // Palabra Hamming recibida con posibles errores
     input  logic       switch_selector,   // 0=dato corregido, 1=síndrome (posición del error)
     output logic [3:0] leds_out,          // LEDs → dato corregido o posición del error
@@ -24,11 +24,13 @@ module receptor_top (
         if (switch_selector == 1'b0) begin
             // Mostrar dato corregido
             leds_out = corrected_data[3:0];  // Los LEDs mostrarán los 4 bits corregidos
-            seg_out = corrected_data[6:0];   // El display de 7 segmentos muestra el dato corregido
+            // Convertir `corrected_data` a 7 segmentos para mostrar en seg_out
+            seg_out = bin_to_7seg_converter(corrected_data[3:0]); // Datos corregidos a 7 segmentos
         end else begin
             // Mostrar posición del error
             leds_out = error_pos;            // Los LEDs mostrarán la posición del error (3 bits)
-            seg_out = {4'b0000, error_pos};  // El display de 7 segmentos muestra la posición del error
+            // Convertir `error_pos` a 7 segmentos para mostrar en seg_out
+            seg_out = bin_to_7seg_converter(error_pos);  // Posición del error a 7 segmentos
         end
     end
 
@@ -69,61 +71,33 @@ module hamming74_decoder (
 endmodule
 
 // ============================================================
-// MODULO 6.2: Display de 7 segmentos
+// MODULO 6.2: Conversor binario a 7 segmentos (para datos corregidos y posición del error)
 // ============================================================
 
-module bin_to_7seg (
-    input  logic [3:0] sw,
-    output logic [6:0] segments
+module bin_to_7seg_converter (
+    input  logic [3:0] data_in,        // Entrada de 4 bits (datos corregidos o posición de error)
+    output logic [6:0] segments        // Salida para el display de 7 segmentos
 );
 
-    logic AIN, BIN, CIN, DIN;
-    logic AIN_N, BIN_N, CIN_N, DIN_N;
-    logic SA, SB, SC, SD, SE, SF, SG;
-
-    assign AIN = sw[3];
-    assign BIN = sw[2];
-    assign CIN = sw[1];
-    assign DIN = sw[0];
-
-    assign AIN_N = ~AIN;
-    assign BIN_N = ~BIN;
-    assign CIN_N = ~CIN;
-    assign DIN_N = ~DIN;
-
-    assign SA = (DIN_N & (AIN | BIN_N)) | 
-                (AIN_N & (CIN | (BIN & DIN))) | 
-                (BIN & CIN) | 
-                (AIN & BIN_N & CIN_N);
-
-    assign SB = (BIN_N & (AIN_N | DIN_N)) | 
-                (AIN_N & (~(CIN ^ DIN))) | 
-                (AIN & DIN & CIN_N);
-
-    assign SC = (AIN & BIN_N) | 
-                (AIN_N & (BIN | DIN | CIN_N)) | 
-                (DIN & CIN_N);
-
-    assign SD = (DIN_N & ((AIN_N & BIN_N) | (BIN & CIN) | (AIN & CIN_N))) | 
-                (DIN & ((BIN & CIN_N) | (BIN_N & CIN)));
-
-    assign SE = (DIN_N & (BIN_N | CIN)) | 
-                (AIN & (CIN | BIN));
-
-    assign SF = (AIN & (CIN | BIN_N)) | 
-                (DIN_N & (BIN | CIN_N)) | 
-                (AIN_N & BIN & CIN_N);
-
-    assign SG = (AIN & (DIN | BIN_N)) | 
-                (CIN & (BIN_N | DIN_N)) | 
-                (AIN_N & BIN & CIN_N);
-
-    assign segments[0] = SA;
-    assign segments[1] = SB;
-    assign segments[2] = SC;
-    assign segments[3] = SD;
-    assign segments[4] = SE;
-    assign segments[5] = SF;
-    assign segments[6] = SG;
-
+    always_comb begin
+        case (data_in)
+            4'b0000: segments = 7'b0111111; // 0
+            4'b0001: segments = 7'b0000110; // 1
+            4'b0010: segments = 7'b1011011; // 2
+            4'b0011: segments = 7'b1001111; // 3
+            4'b0100: segments = 7'b1100110; // 4
+            4'b0101: segments = 7'b1101101; // 5
+            4'b0110: segments = 7'b1111101; // 6
+            4'b0111: segments = 7'b0000111; // 7
+            4'b1000: segments = 7'b1111111; // 8
+            4'b1001: segments = 7'b1101111; // 9
+            4'b1010: segments = 7'b1110111; // A
+            4'b1011: segments = 7'b1111100; // B
+            4'b1100: segments = 7'b0111001; // C
+            4'b1101: segments = 7'b1011110; // D
+            4'b1110: segments = 7'b1111001; // E
+            4'b1111: segments = 7'b1110001; // F
+            default: segments = 7'b0000000; // Apagar
+        endcase
+    end
 endmodule
