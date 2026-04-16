@@ -15,9 +15,6 @@
 ## Abreviaturas y definiciones
 - **FPGA**: Field Programmable Gate Arrays
 - **HDL**: Hardware Description Language
-- **SCR**: Silicon Controlled Rectifier
-- **EDA**: Electronic Design Automation
-- **GPIO**: General Purpose Input/Output
 ---
 ## Herramientas Utilizadas
 - **Descripción Hardawre**: SystemVerilog
@@ -47,27 +44,34 @@ El trabajo realizado hasta el momento constituye una base importante para contin
 ## Estructura actual del proyecto
 Se reorganizó la estructura del proyecto con el fin de separar adecuadamente la documentación, el diseño HDL, la simulación, los constraints y los archivos generados durante compilación.
 ```text
-Proyecto_1
+proyecto1-dise-o-logico
 ├── docs
 │   ├── imagenes
-│   └── informe
+│   │   ├── GTWV.png
+│   │   ├── TB_Corrector.png
+│   │   ├── TestBench.png
+│   │   └── testbenchDetector.png
+│   ├── informe
+│   │   └── README.md
+│   ├── Proyecto1 Instrucciones.pdf
+│   └── Tang_Nano_9k_3672_Schematic.pdf
 ├── src
 │   ├── build
 │   │   ├── Makefile
-│   │   ├── receptor_test.o
-│   │   └── receptor_top_tb.vcd
+│   │   └── abc.history
 │   ├── constr
 │   │   ├── constr_Plantilla.txt
-│   │   └── receptor.cst
+│   │   └── receptor_consolidado.cst
 │   ├── design
-│   │   ├── receptor
-│   │   │   ├── detector_error.sv
-│   │   │   ├── corrector_error.sv
-│   │   │   ├── receptor_top.sv
-│   │   │   └── README.md
-│   │   └── transmisor
+│   │   └── receptor
+│   │       └── receptor_top.sv        ← contiene los 3 módulos juntos
 │   └── sim
-│       └── receptor_top_tb.sv
+│       ├── corrector_error_tb.sv
+│       ├── decodificador_7seg_tb.sv
+│       ├── detector_error_tb.sv
+│       ├── receptor_top_tb.sv
+│       ├── secded_tb.sv
+│       └── selector_top_tb.sv
 ├── .gitignore
 └── README.md
 ```
