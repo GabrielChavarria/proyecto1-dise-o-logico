@@ -19,20 +19,26 @@ module top_receptor (
         .corrected_data(corrected_data)
     );
 
-    // Lógica condicional para mostrar el dato corregido o la posición del error
+    // Instanciación del módulo bin_to_7seg_converter
+    logic [3:0] display_data;  // Datos que se mostrarán en el display de 7 segmentos
+    
     always_comb begin
         if (switch_selector == 1'b0) begin
             // Mostrar dato corregido
             leds_out = corrected_data[3:0];  // Los LEDs mostrarán los 4 bits corregidos
-            // Convertir `corrected_data` a 7 segmentos para mostrar en seg_out
-            seg_out = bin_to_7seg_converter(corrected_data[3:0]); // Datos corregidos a 7 segmentos
+            display_data = corrected_data[3:0];  // Pasamos los 4 bits corregidos para mostrar en 7 segmentos
         end else begin
             // Mostrar posición del error
             leds_out = error_pos;            // Los LEDs mostrarán la posición del error (3 bits)
-            // Convertir `error_pos` a 7 segmentos para mostrar en seg_out
-            seg_out = bin_to_7seg_converter(error_pos);  // Posición del error a 7 segmentos
+            display_data = error_pos;        // Pasamos la posición del error para mostrar en 7 segmentos
         end
     end
+
+    // Instanciar el convertidor a 7 segmentos
+    bin_to_7seg_converter U2 (
+        .data_in(display_data),  // Entrada: los datos que se quieren mostrar
+        .segments(seg_out)       // Salida: el valor de los segmentos del display
+    );
 
 endmodule
 
