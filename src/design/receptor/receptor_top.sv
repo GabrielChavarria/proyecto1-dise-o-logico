@@ -103,7 +103,7 @@ module bin_to_7seg_converter (
             4'b1101: segments = 7'b1011110; // D
             4'b1110: segments = 7'b1111001; // E
             4'b1111: segments = 7'b1110001; // F
-            default: segments = 7'b0000000; // Apagar
+            default: segments = 7'b0111111; // Apagar
         endcase
     end
 endmodule
